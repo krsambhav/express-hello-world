@@ -82,7 +82,7 @@ const html = `
   </head>
   <body>
     <section>
-      Hello from Render!
+      404
     </section>
   </body>
 </html>

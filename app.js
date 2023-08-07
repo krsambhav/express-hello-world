@@ -1,15 +1,15 @@
 const express = require("express");
-const fs = require('fs');
+const d = require('./data.json');
 const app = express();
 const port = process.env.PORT || 3001;
-app.use(express.json());
+
 app.get("/", (req, res) => res.type("html").send(html));
 
 app.post("/", (req, res) => {
-  let bindata = JSON.parse(fs.readFileSync('data.json'))
+  let bindata = JSON.parse(d);
   console.log(req.body);
   console.log("POST");
-  let b64string = req.body['data'];
+  let b64string = req.body["data"];
   let data = Buffer.from(b64string, "base64");
   let formattedData = data.toString().split(".").join("%0A");
   console.log(formattedData);

